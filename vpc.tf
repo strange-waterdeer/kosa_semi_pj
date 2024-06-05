@@ -81,6 +81,15 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
+# Route Table Association for Public Subnets to Internet Gateway
+resource "aws_route" "public_igw_route" {
+  count                  = length(var.az)
+  route_table_id         = element(aws_route_table.public_rt.*.id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.igw.id
+}
+
+
 # Route Table Association for Public Subnets
 resource "aws_route_table_association" "public_rt_ac" {
   count          = length(var.az)
