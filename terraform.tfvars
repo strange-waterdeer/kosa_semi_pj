@@ -5,11 +5,7 @@ cidr_num_public = {
   "0" = "0"
   "1" = "1"
 }
-cidr_num_private_1 = {
+cidr_num_private = {
   "0" = "2"
   "1" = "3"
-}
-cidr_num_private_2 = {
-  "0" = "4"
-  "1" = "5"
 }
