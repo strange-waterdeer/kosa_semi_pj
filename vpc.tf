@@ -89,7 +89,6 @@ resource "aws_route" "public_igw_route" {
   gateway_id             = aws_internet_gateway.igw.id
 }
 
-
 # Route Table Association for Public Subnets
 resource "aws_route_table_association" "public_rt_ac" {
   count          = length(var.az)
