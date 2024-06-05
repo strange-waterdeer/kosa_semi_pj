@@ -22,33 +22,18 @@ resource "aws_subnet" "public" {
   }
 }
 
-# First Private Subnets
-resource "aws_subnet" "private_1" {
+# Private Subnets
+resource "aws_subnet" "private" {
   count  = length(var.az)
   vpc_id = aws_vpc.vpc.id
 
-  cidr_block        = "10.0.${var.cidr_num_private_1[count.index]}.0/24"
+  cidr_block        = "10.0.${var.cidr_num_private[count.index]}.0/24"
   availability_zone = element(var.az, count.index)
 
   #map_public_ip_on_launch = true
 
   tags = {
     Name = "pj_private_${element(var.short_az, count.index)}_1"
-  }
-}
-
-# Second Private Subnets
-resource "aws_subnet" "private_2" {
-  count  = length(var.az)
-  vpc_id = aws_vpc.vpc.id
-
-  cidr_block        = "10.0.${var.cidr_num_private_2[count.index]}.0/24"
-  availability_zone = element(var.az, count.index)
-
-  #map_public_ip_on_launch = true
-
-  tags = {
-    Name = "pj_private_${element(var.short_az, count.index)}_2"
   }
 }
 
@@ -104,7 +89,7 @@ resource "aws_route_table_association" "public_rt_ac" {
 }
 
 # Route Table for First Private Subnets
-resource "aws_route_table" "private_rt_1" {
+resource "aws_route_table" "private_rt" {
   count  = length(var.az)
   vpc_id = aws_vpc.vpc.id
 
@@ -113,26 +98,9 @@ resource "aws_route_table" "private_rt_1" {
   }
 }
 
-# Route Table Association for First Private Subnets
+# Route Table Association for Private Subnets
 resource "aws_route_table_association" "private_rt_ac_1" {
   count          = length(var.az)
-  subnet_id      = element(aws_subnet.private_1.*.id, count.index)
-  route_table_id = element(aws_route_table.private_rt_1.*.id, count.index)
-}
-
-# Route Table for Second Private Subnets
-resource "aws_route_table" "private_rt_2" {
-  count  = length(var.az)
-  vpc_id = aws_vpc.vpc.id
-
-  tags = {
-    Name = "pj_private_rt_${element(var.short_az, count.index)}_2"
-  }
-}
-
-# Route Table Association for Second Private Subnets
-resource "aws_route_table_association" "private_rt_ac_2" {
-  count          = length(var.az)
-  subnet_id      = element(aws_subnet.private_2.*.id, count.index)
-  route_table_id = element(aws_route_table.private_rt_2.*.id, count.index)
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = element(aws_route_table.private_rt.*.id, count.index)
 }
