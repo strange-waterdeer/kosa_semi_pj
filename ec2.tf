@@ -14,15 +14,14 @@ resource "aws_instance" "web_server" {
 
 # Elastic Compute Cloud Instance for Database Server
 resource "aws_instance" "db_server" {
-  count         = length(var.az)
   ami           = data.aws_ami.ubuntu_22_04.id
   instance_type = "t2.micro"
-  subnet_id     = element(aws_subnet.private.*.id, count.index)
+  subnet_id     = aws_subnet.private[0].id
 
   vpc_security_group_ids = [aws_security_group.sg_db.id]
 
   tags = {
-    Name = "pj_database_server_${element(var.short_az, count.index)}"
+    Name = "pj_database_server_${var.short_az[0]}"
   }
 }
 
