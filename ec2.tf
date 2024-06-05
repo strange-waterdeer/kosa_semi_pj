@@ -28,6 +28,14 @@ resource "aws_instance" "db_server" {
 
   vpc_security_group_ids = [aws_security_group.sg_db.id]
 
+  #   user_data = <<-EOF
+  #               #!/bin/bash
+  #               apt-get update -y
+  #               apt-get install -y 
+  #               systemctl start httpd
+  #               systemctl enable httpd
+  #               EOF
+
   tags = {
     Name = "pj_database_server_${var.short_az[0]}"
   }
