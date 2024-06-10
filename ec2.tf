@@ -11,8 +11,7 @@ resource "aws_instance" "web_server" {
               #!/bin/bash
               yum update -y
               yum install -y httpd
-              systemctl start httpd
-              systemctl enable httpd
+              systemctl enable --now httpd
               EOF
 
   tags = {
@@ -28,13 +27,13 @@ resource "aws_instance" "db_server" {
 
   vpc_security_group_ids = [aws_security_group.sg_db.id]
 
-  #   user_data = <<-EOF
-  #               #!/bin/bash
-  #               apt-get update -y
-  #               apt-get install -y 
-  #               systemctl start httpd
-  #               systemctl enable httpd
-  #               EOF
+  user_data = <<-EOF
+                 #!/bin/bash
+                 apt-get update -y
+                 apt-get install epel-release -y
+                 apt-get install nginx -y
+                 systemctl enable --now nginx
+                 EOF
 
   tags = {
     Name = "pj_database_server_${var.short_az[0]}"
