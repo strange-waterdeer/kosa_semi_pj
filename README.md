@@ -1,4 +1,4 @@
 # kosa_semi_pj
 with IaC
-https://docs.google.com/document/d/16MEwbqgkyWS1Vn-XWVNx2lYVq3H6JS9KxaLcSGD8Mro/edit
 
+![image](https://github.com/strange-waterdeer/kosa_semi_pj/assets/170915289/da865eeb-7285-435f-80ee-4c5b09bb42f4)
